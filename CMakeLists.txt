@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.20)
+project(ase-rendu C)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
+set(CMAKE_C_STANDARD 99)
+
+add_executable(ouvrir ouvrir.c)
+add_executable(fermer fermer.c)
+add_executable(nettoyer nettoyer.c)
+add_executable(medecin medecin.c)
+add_executable(patient patient.c)
+target_link_libraries(ouvrir PRIVATE Threads::Threads)
+target_link_libraries(fermer PRIVATE Threads::Threads)
+target_link_libraries(nettoyer PRIVATE Threads::Threads)
+target_link_libraries(medecin PRIVATE Threads::Threads)
+target_link_libraries(patient PRIVATE Threads::Threads)

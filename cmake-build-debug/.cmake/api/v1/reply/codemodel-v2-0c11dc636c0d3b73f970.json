@@ -1,0 +1,96 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ase-rendu",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "fermer::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-fermer-Debug-aed4e7d722f217d40c76.json",
+					"name" : "fermer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "medecin::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-medecin-Debug-f7219f781d79c8225cc8.json",
+					"name" : "medecin",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "nettoyer::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-nettoyer-Debug-cb06fcace9895d6f5d4b.json",
+					"name" : "nettoyer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ouvrir::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ouvrir-Debug-9a1117bdff97681e162c.json",
+					"name" : "ouvrir",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "patient::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-patient-Debug-db52b917eefe19c6c409.json",
+					"name" : "patient",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/anthony/CLionProjects/ase-rendu/cmake-build-debug",
+		"source" : "/home/anthony/CLionProjects/ase-rendu"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}
