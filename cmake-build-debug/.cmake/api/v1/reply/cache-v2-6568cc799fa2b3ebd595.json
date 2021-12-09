@@ -1010,6 +1010,18 @@
 			"value" : "[TRUE][v()]"
 		},
 		{
+			"name" : "REQUIRED_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for REQUIRED."
+				}
+			],
+			"type" : "PATH",
+			"value" : "REQUIRED_DIR-NOTFOUND"
+		},
+		{
 			"name" : "THREADS_HAVE_PTHREAD_ARG",
 			"properties" : 
 			[

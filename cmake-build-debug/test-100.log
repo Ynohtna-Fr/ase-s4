@@ -1,0 +1,55 @@
+============================================================
+==> commandes exécutées
++ ./ouvrir 1 2
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./ouvrir 1 2 3 4
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./ouvrir -1 1 1
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./ouvrir 0 1 1
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./ouvrir 1 -1 1
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./ouvrir 1 0 1
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./ouvrir 1 1 -1
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./fermer 1
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./nettoyer 1
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./medecin 1
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./patient
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./patient 1 2
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./patient 
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./patient ABCDEFGHIJK
++ tu
++ grep -q usage:  /tmp/test-100-55127
++ ./nettoyer
++ ./fermer
++ ./medecin
++ ./patient toto
++ logs_aux
++ set +x
+============================================================
+==> Fichier de log auxiliaire /tmp/test-100-55127
+usage: <char[10]> patientName 
+============================================================
+==> /dev/shm
