@@ -2,46 +2,46 @@
 ==> commandes exécutées
 + ./ouvrir 1 2
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./ouvrir 1 2 3 4
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./ouvrir -1 1 1
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./ouvrir 0 1 1
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./ouvrir 1 -1 1
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./ouvrir 1 0 1
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./ouvrir 1 1 -1
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./fermer 1
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./nettoyer 1
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./medecin 1
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./patient
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./patient 1 2
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./patient 
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./patient ABCDEFGHIJK
 + tu
-+ grep -q usage:  /tmp/test-100-55127
++ grep -q usage:  /tmp/test-100-56169
 + ./nettoyer
 + ./fermer
 + ./medecin
@@ -49,7 +49,7 @@
 + logs_aux
 + set +x
 ============================================================
-==> Fichier de log auxiliaire /tmp/test-100-55127
+==> Fichier de log auxiliaire /tmp/test-100-56169
 usage: <char[10]> patientName 
 ============================================================
 ==> /dev/shm
