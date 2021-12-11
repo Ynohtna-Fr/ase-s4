@@ -21,4 +21,23 @@ int main (int argc, char *argv []) {
         adebug(1, "Le vaccinodrome n'est pas ouvert !");
         return 1;
     }
+
+    struct stat sharedLength;
+    fstat(shm_fd, &sharedLength);
+
+    vaccinodrome *vacci = mmap(NULL, sharedLength.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    if (vacci == MAP_FAILED) {
+        perror("mmap");
+        return 1;
+    }
+
+    boxDoctor * doctors = (boxDoctor *) (vacci->seats + (vacci->nbrSeats * sizeof(waiting_seats)) + 1);
+
+    for (int i = 0; i < vacci->nbrSeats; ++i) {
+        printf("Siège %d | Libre ? %d | par : %s \n", i, vacci->seats[i].isTaken, vacci->seats[i].patient.name);
+    }
+    printf("----------\n");
+    for (int i = 0; i < vacci->maxDoctor; ++i) {
+        printf("box %d | Libre ? %d | par : %s \n", i, doctors[i].isTaken, doctors[i].patient.name);
+    }
 }

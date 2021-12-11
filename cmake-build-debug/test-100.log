@@ -2,46 +2,46 @@
 ==> commandes exécutées
 + ./ouvrir 1 2
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./ouvrir 1 2 3 4
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./ouvrir -1 1 1
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./ouvrir 0 1 1
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./ouvrir 1 -1 1
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./ouvrir 1 0 1
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./ouvrir 1 1 -1
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./fermer 1
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./nettoyer 1
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./medecin 1
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./patient
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./patient 1 2
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./patient 
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./patient ABCDEFGHIJK
 + tu
-+ grep -q usage:  /tmp/test-100-56169
++ grep -q usage:  /tmp/test-100-26274
 + ./nettoyer
 + ./fermer
 + ./medecin
@@ -49,7 +49,10 @@
 + logs_aux
 + set +x
 ============================================================
-==> Fichier de log auxiliaire /tmp/test-100-56169
-usage: <char[10]> patientName 
+==> Fichier de log auxiliaire /tmp/test-100-26274
+Patient 26307 (0.000): Patient toto :
+
+shm_open: No such file or directory
+Patient 26307 (0.000): Le vaccinodrome n'est pas ouvert !
 ============================================================
 ==> /dev/shm

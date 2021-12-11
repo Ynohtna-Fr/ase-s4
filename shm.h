@@ -2,10 +2,38 @@
 #include "./asem.h"
 #define SHARED_VACCINODROME "/vaccinodrome-anthony-adam"
 
-typedef struct {
-    asem_t sem_seat;
-    asem_t sem_getPatient;
-    int maxDoctor;
-    int timeToVaccinate;
-    char *seats;
+#define TRUE 1
+#define FALSE 0
+
+typedef struct patient {
+    char name[10]; // name of the patient
+    int numSiege; // number of the patient's seat
+    int boxNumber; // number of the patient's box
+} patient;
+
+typedef struct waiting_seats {
+    int isTaken; // check is the seats is taken or not by a patient
+    patient patient; // patient in the seat
+} waiting_seats;
+
+typedef struct boxDoctor {
+    int isTaken; // Taken = a patient is in the box
+    int medecinNumber; // number of the doctor who take the box. -1 = no doctor
+    patient patient; // patient in the box
+} boxDoctor;
+
+typedef struct vaccinodrome {
+    asem_t sem_seat; // semaphore for the seats
+    asem_t lock_seat; // semaphore lock for the patient to get a seat
+    asem_t wait_patient; // semaphore lock for the doctor to get a patient
+    asem_t wait_vaccination; // semaphore lock for the patient to wait for the vaccination
+    asem_t sem_doctors; // semaphore lock for the patient to wait for the doctor
+    asem_t lock_doctors; // semaphore lock for the patient to wait for the doctor
+    int maxDoctor; // maximum number of doctors
+    int timeToVaccinate; // time to vaccinate
+    int nbrSeats; // number of seats
+    int isOpen; // check if the room is open or not
+    waiting_seats seats[]; // array of the seats
+    // implicite : boxDoctor doctorBox[]; // array of the boxes
 } vaccinodrome;
+
