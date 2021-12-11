@@ -3,6 +3,7 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <malloc.h>
 
 int main (int argc, char *argv []) {
     (void) argc ;
@@ -31,13 +32,18 @@ int main (int argc, char *argv []) {
         return 1;
     }
 
+//    for (int i = 0; i < vacci->nbrSeats; ++i) {
+//        printf("Siège %d | Libre ? %d | par : %s \n", i, vacci->seats[i].isTaken, vacci->seats[i].patient.name);
+//    }
+//    printf("----------\n");
+//    for (int i = 0; i < vacci->maxDoctor; ++i) {
+//        printf("box %d | Libre ? %d | par : %s \n", i, doctors[i].isTaken, doctors[i].patient.name);
+//    }
     boxDoctor * doctors = (boxDoctor *) (vacci->seats + (vacci->nbrSeats * sizeof(waiting_seats)) + 1);
 
-    for (int i = 0; i < vacci->nbrSeats; ++i) {
-        printf("Siège %d | Libre ? %d | par : %s \n", i, vacci->seats[i].isTaken, vacci->seats[i].patient.name);
-    }
-    printf("----------\n");
-    for (int i = 0; i < vacci->maxDoctor; ++i) {
-        printf("box %d | Libre ? %d | par : %s \n", i, doctors[i].isTaken, doctors[i].patient.name);
-    }
+    adebug(1, "Fermeture du vaccinodrome");
+    vacci->isOpen = FALSE;
+    asem_wait(&vacci->wait_close);
+    adebug(1, "Fermeture définitive je supprime tout !");
+    shm_unlink(SHARED_VACCINODROME);
 }

@@ -60,6 +60,28 @@ int main (int argc, char *argv []) {
         // flag false = nobody in the waiting room
         if (flag == FALSE /*&& vacci->isOpen == FALSE*/) {
             stopWork = TRUE;
+            adebug(1, "Medecin %d : y'a plus personne, donc je pars !", myNum);
+            asem_wait(&vacci->lock_doctors);
+            doctors[myNum].medecinNumber = -1;
+            asem_post(&vacci->lock_doctors);
+
+            adebug(1, "Medecin %d : je vérifie que je suis le dernier à partir", myNum);
+            int f = FALSE;
+            asem_wait(&vacci->lock_doctors);
+            for (int k = 0; k < vacci->maxDoctor; ++k) {
+                if (doctors[k].medecinNumber != -1) {
+                    f = TRUE;
+                }
+            }
+            asem_post(&vacci->lock_doctors);
+
+            if (f == FALSE) {
+                adebug(1, "Medecin %d : Je suis le dernier, je finalise la fermeture", myNum);
+                asem_post(&vacci->wait_close);
+            }
+
+            asem_post(&vacci->lock_seat);
+            break;
         }
 
         asem_post(&vacci->lock_seat);

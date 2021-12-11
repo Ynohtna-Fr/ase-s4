@@ -36,7 +36,7 @@ int main (int argc, char *argv []) {
     }
     doctorNumber = atoi(argv[2]);
 
-    if (argv[3] == NULL || atoi(argv[3]) <= 0) {
+    if (argv[3] == NULL || atoi(argv[3]) < 0) {
         printf("usage: error on arg 3 : <unsigned int> n, <unsigned int> m, "
                "<uunsigned utime> t\n");
         return 1;
@@ -59,12 +59,14 @@ int main (int argc, char *argv []) {
     asem_t lock_doctors;
     asem_t wait_patient;
     asem_t wait_vaccination;
+    asem_t wait_close;
     asem_init(&sem_siege, "sieges", 1, patientMaxNumber); // number of seats
     asem_init(&sem_doctors, "doctors", 1, 0); // +1 for each doctor when arrives
     asem_init(&lock_seat, "getPlace", 1, 1);
     asem_init(&lock_doctors, "lockBox", 1, 1);
     asem_init(&wait_patient, "getPatient", 1, 0);
     asem_init(&wait_vaccination, "waitVaccination", 1, 0);
+    asem_init(&wait_close, "waitclose", 1, 0);
 
     // create a shared memory
     int shmid = shm_open(SHARED_VACCINODROME, O_CREAT | O_RDWR |
@@ -113,6 +115,7 @@ int main (int argc, char *argv []) {
     vacci_ptr->lock_doctors = lock_doctors;
     vacci_ptr->wait_patient = wait_patient;
     vacci_ptr->wait_vaccination = wait_vaccination;
+    vacci_ptr->wait_close = wait_close;
 
     for (int i = 0; i < patientMaxNumber; ++i) {
         vacci_ptr->seats[i] = seats;

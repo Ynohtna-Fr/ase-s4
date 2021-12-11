@@ -23,16 +23,17 @@ typedef struct boxDoctor {
 } boxDoctor;
 
 typedef struct vaccinodrome {
-    asem_t sem_seat; // semaphore for the seats
-    asem_t lock_seat; // semaphore lock for the patient to get a seat
-    asem_t wait_patient; // semaphore lock for the doctor to get a patient
-    asem_t wait_vaccination; // semaphore lock for the patient to wait for the vaccination
-    asem_t sem_doctors; // semaphore lock for the patient to wait for the doctor
-    asem_t lock_doctors; // semaphore lock for the patient to wait for the doctor
     int maxDoctor; // maximum number of doctors
     int timeToVaccinate; // time to vaccinate
     int nbrSeats; // number of seats
     int isOpen; // check if the room is open or not
+    asem_t sem_seat; // semaphore for the seats
+    asem_t sem_doctors; // semaphore lock for the patient to wait for the doctor
+    asem_t lock_seat; // semaphore lock for the patient to get a seat
+    asem_t lock_doctors; // semaphore lock for the patient to wait for the doctor
+    asem_t wait_patient; // semaphore lock for the doctor to get a patient
+    asem_t wait_vaccination; // semaphore lock for the patient to wait for the vaccination
+    asem_t wait_close; // semaphore lock for the patient to wait for the vaccination
     waiting_seats seats[]; // array of the seats
     // implicite : boxDoctor doctorBox[]; // array of the boxes
 } vaccinodrome;
