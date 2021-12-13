@@ -58,6 +58,7 @@ int main (int argc, char *argv []) {
     adebug(1, "%s : On me fait signe, je fonce !\n", p->name);
     if (vacci->isOpen == FALSE) {
         adebug(1, "%s : fu*k le vaccinodrome est fermé\n", p->name);
+        return 1;
         exit(1);
     }
 
@@ -101,6 +102,8 @@ int main (int argc, char *argv []) {
             p->boxNumber = i;
             p->numSiege = -1;
             break;
+        } else {
+            adebug(1, "%s : le medecin %d est occupé par %s !", p->name, i, doctors[i].patient.name);
         }
     }
     asem_post(&vacci->lock_doctors);
@@ -109,9 +112,5 @@ int main (int argc, char *argv []) {
     adebug(1, "%s : Il me vaccine, je sais pas combien de temps ça prend", p->name);
     asem_wait(&vacci->wait_vaccination);
     adebug(1, "%s : Super je suis vacciné ! Je part bisous", p->name);
-    asem_wait(&vacci->lock_doctors);
-    doctors[p->boxNumber].isTaken = FALSE;
-    doctors[p->boxNumber].patient = undifined_patient;
-    asem_post(&vacci->lock_doctors);
     free(p);
 }

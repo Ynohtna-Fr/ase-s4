@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <malloc.h>
+#include <unistd.h>
 
 int main (int argc, char *argv []) {
     (void) argc ;
@@ -32,15 +33,6 @@ int main (int argc, char *argv []) {
         return 1;
     }
 
-//    for (int i = 0; i < vacci->nbrSeats; ++i) {
-//        printf("Siège %d | Libre ? %d | par : %s \n", i, vacci->seats[i].isTaken, vacci->seats[i].patient.name);
-//    }
-//    printf("----------\n");
-//    for (int i = 0; i < vacci->maxDoctor; ++i) {
-//        printf("box %d | Libre ? %d | par : %s \n", i, doctors[i].isTaken, doctors[i].patient.name);
-//    }
-//    boxDoctor * doctors = (boxDoctor *) &vacci->seats[vacci->nbrSeats - 1] + 1;
-
     adebug(1, "Fermeture du vaccinodrome");
     vacci->isOpen = FALSE;
 
@@ -48,8 +40,11 @@ int main (int argc, char *argv []) {
     for (int i = 0; i < vacci->maxDoctor; ++i) {
         asem_post(&vacci->wait_patient);
     }
-
-//    asem_wait(&vacci->wait_close);
+    // Free the patients
+    for (int i = 0; i < vacci->nbrSeats; ++i) {
+        asem_post(&vacci->sema_seat);
+    }
+    sleep(1);
     adebug(1, "Fermeture définitive je supprime tout !");
     shm_unlink(SHARED_VACCINODROME);
     asem_destroy(&vacci->sema_seat);
