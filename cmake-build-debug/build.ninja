@@ -52,6 +52,50 @@ build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
 build edit_cache: phony CMakeFiles/edit_cache.util
 
 # =============================================================================
+# Object build statements for EXECUTABLE target show
+
+
+#############################################
+# Order-only phony target for show
+
+build cmake_object_order_depends_target_show: phony || CMakeFiles/show.dir
+
+build CMakeFiles/show.dir/show.c.o: C_COMPILER__show_Debug /home/anthony/CLionProjects/ase-rendu/show.c || cmake_object_order_depends_target_show
+  DEP_FILE = CMakeFiles/show.dir/show.c.o.d
+  FLAGS = -g -pthread -std=gnu99
+  OBJECT_DIR = CMakeFiles/show.dir
+  OBJECT_FILE_DIR = CMakeFiles/show.dir
+
+build CMakeFiles/show.dir/asem.c.o: C_COMPILER__show_Debug /home/anthony/CLionProjects/ase-rendu/asem.c || cmake_object_order_depends_target_show
+  DEP_FILE = CMakeFiles/show.dir/asem.c.o.d
+  FLAGS = -g -pthread -std=gnu99
+  OBJECT_DIR = CMakeFiles/show.dir
+  OBJECT_FILE_DIR = CMakeFiles/show.dir
+
+build CMakeFiles/show.dir/shm.c.o: C_COMPILER__show_Debug /home/anthony/CLionProjects/ase-rendu/shm.c || cmake_object_order_depends_target_show
+  DEP_FILE = CMakeFiles/show.dir/shm.c.o.d
+  FLAGS = -g -pthread -std=gnu99
+  OBJECT_DIR = CMakeFiles/show.dir
+  OBJECT_FILE_DIR = CMakeFiles/show.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target show
+
+
+#############################################
+# Link the executable show
+
+build show: C_EXECUTABLE_LINKER__show_Debug CMakeFiles/show.dir/show.c.o CMakeFiles/show.dir/asem.c.o CMakeFiles/show.dir/shm.c.o
+  FLAGS = -g
+  LINK_LIBRARIES = -lrt  -lg  -pthread
+  OBJECT_DIR = CMakeFiles/show.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = show
+  TARGET_PDB = show.dbg
+
+# =============================================================================
 # Object build statements for EXECUTABLE target patient
 
 
@@ -88,7 +132,7 @@ build CMakeFiles/patient.dir/shm.c.o: C_COMPILER__patient_Debug /home/anthony/CL
 
 build patient: C_EXECUTABLE_LINKER__patient_Debug CMakeFiles/patient.dir/patient.c.o CMakeFiles/patient.dir/asem.c.o CMakeFiles/patient.dir/shm.c.o
   FLAGS = -g
-  LINK_LIBRARIES = -lrt  -pthread
+  LINK_LIBRARIES = -lrt  -lg  -pthread
   OBJECT_DIR = CMakeFiles/patient.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -132,7 +176,7 @@ build CMakeFiles/ouvrir.dir/shm.c.o: C_COMPILER__ouvrir_Debug /home/anthony/CLio
 
 build ouvrir: C_EXECUTABLE_LINKER__ouvrir_Debug CMakeFiles/ouvrir.dir/ouvrir.c.o CMakeFiles/ouvrir.dir/asem.c.o CMakeFiles/ouvrir.dir/shm.c.o
   FLAGS = -g
-  LINK_LIBRARIES = -lrt  -pthread
+  LINK_LIBRARIES = -lrt  -lg  -pthread
   OBJECT_DIR = CMakeFiles/ouvrir.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -176,7 +220,7 @@ build CMakeFiles/fermer.dir/shm.c.o: C_COMPILER__fermer_Debug /home/anthony/CLio
 
 build fermer: C_EXECUTABLE_LINKER__fermer_Debug CMakeFiles/fermer.dir/fermer.c.o CMakeFiles/fermer.dir/asem.c.o CMakeFiles/fermer.dir/shm.c.o
   FLAGS = -g
-  LINK_LIBRARIES = -lrt  -pthread
+  LINK_LIBRARIES = -lrt  -lg  -pthread
   OBJECT_DIR = CMakeFiles/fermer.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -232,7 +276,7 @@ build CMakeFiles/medecin.dir/shm.c.o: C_COMPILER__medecin_Debug /home/anthony/CL
 
 build medecin: C_EXECUTABLE_LINKER__medecin_Debug CMakeFiles/medecin.dir/medecin.c.o CMakeFiles/medecin.dir/asem.c.o CMakeFiles/medecin.dir/shm.c.o
   FLAGS = -g
-  LINK_LIBRARIES = -lrt  -pthread
+  LINK_LIBRARIES = -lrt  -lg  -pthread
   OBJECT_DIR = CMakeFiles/medecin.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -276,7 +320,7 @@ build CMakeFiles/nettoyer.dir/shm.c.o: C_COMPILER__nettoyer_Debug /home/anthony/
 
 build nettoyer: C_EXECUTABLE_LINKER__nettoyer_Debug CMakeFiles/nettoyer.dir/nettoyer.c.o CMakeFiles/nettoyer.dir/asem.c.o CMakeFiles/nettoyer.dir/shm.c.o
   FLAGS = -g
-  LINK_LIBRARIES = -lrt  -pthread
+  LINK_LIBRARIES = -lrt  -lg  -pthread
   OBJECT_DIR = CMakeFiles/nettoyer.dir
   POST_BUILD = :
   PRE_LINK = :
@@ -294,7 +338,7 @@ build nettoyer: C_EXECUTABLE_LINKER__nettoyer_Debug CMakeFiles/nettoyer.dir/nett
 #############################################
 # Folder: /home/anthony/CLionProjects/ase-rendu/cmake-build-debug
 
-build all: phony patient ouvrir fermer medecin nettoyer
+build all: phony show patient ouvrir fermer medecin nettoyer
 
 # =============================================================================
 # Built-in targets

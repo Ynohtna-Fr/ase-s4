@@ -39,11 +39,24 @@ int main (int argc, char *argv []) {
 //    for (int i = 0; i < vacci->maxDoctor; ++i) {
 //        printf("box %d | Libre ? %d | par : %s \n", i, doctors[i].isTaken, doctors[i].patient.name);
 //    }
-    boxDoctor * doctors = (boxDoctor *) (vacci->seats + (vacci->nbrSeats * sizeof(waiting_seats)) + 1);
+//    boxDoctor * doctors = (boxDoctor *) &vacci->seats[vacci->nbrSeats - 1] + 1;
 
     adebug(1, "Fermeture du vaccinodrome");
     vacci->isOpen = FALSE;
-    asem_wait(&vacci->wait_close);
+
+    // free the doctors
+    for (int i = 0; i < vacci->maxDoctor; ++i) {
+        asem_post(&vacci->wait_patient);
+    }
+
+//    asem_wait(&vacci->wait_close);
     adebug(1, "Fermeture définitive je supprime tout !");
     shm_unlink(SHARED_VACCINODROME);
+    asem_destroy(&vacci->sema_seat);
+    asem_destroy(&vacci->sema_doctors);
+    asem_destroy(&vacci->lock_seat);
+    asem_destroy(&vacci->lock_doctors);
+    asem_destroy(&vacci->wait_patient);
+    asem_destroy(&vacci->wait_vaccination);
+    asem_destroy(&vacci->wait_close);
 }

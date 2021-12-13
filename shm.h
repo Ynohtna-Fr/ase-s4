@@ -27,8 +27,8 @@ typedef struct vaccinodrome {
     int timeToVaccinate; // time to vaccinate
     int nbrSeats; // number of seats
     int isOpen; // check if the room is open or not
-    asem_t sem_seat; // semaphore for the seats
-    asem_t sem_doctors; // semaphore lock for the patient to wait for the doctor
+    asem_t sema_seat; // semaphore for the seats
+    asem_t sema_doctors; // semaphore lock for the patient to wait for the doctor
     asem_t lock_seat; // semaphore lock for the patient to get a seat
     asem_t lock_doctors; // semaphore lock for the patient to wait for the doctor
     asem_t wait_patient; // semaphore lock for the doctor to get a patient

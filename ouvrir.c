@@ -53,15 +53,15 @@ int main (int argc, char *argv []) {
             (sizeof(boxDoctor) * doctorNumber);
 
     // Semaphore declaration
-    asem_t sem_siege;
-    asem_t sem_doctors;
+    asem_t sema_siege;
+    asem_t sema_doctors;
     asem_t lock_seat;
     asem_t lock_doctors;
     asem_t wait_patient;
     asem_t wait_vaccination;
     asem_t wait_close;
-    asem_init(&sem_siege, "sieges", 1, patientMaxNumber); // number of seats
-    asem_init(&sem_doctors, "doctors", 1, 0); // +1 for each doctor when arrives
+    asem_init(&sema_siege, "sieges", 1, patientMaxNumber); // number of seats
+    asem_init(&sema_doctors, "doctors", 1, 0); // +1 for each doctor when arrives
     asem_init(&lock_seat, "getPlace", 1, 1);
     asem_init(&lock_doctors, "lockBox", 1, 1);
     asem_init(&wait_patient, "getPatient", 1, 0);
@@ -76,7 +76,7 @@ int main (int argc, char *argv []) {
         return 1;
     }
 
-    ftruncate(shmid, length);
+    ftruncate(shmid, (__off_t)length);
     vaccinodrome *vacci_ptr = mmap(NULL, length,
                                    PROT_READ | PROT_WRITE, MAP_SHARED, shmid, 0);
     if (vacci_ptr == MAP_FAILED) {
@@ -85,7 +85,7 @@ int main (int argc, char *argv []) {
     }
 
     // this will add an array with box to the vaccinodrome structure.
-    boxDoctor * doctorBox = (boxDoctor *) (vacci_ptr->seats + (patientMaxNumber * sizeof(waiting_seats)) + 1);
+    boxDoctor * doctorBox = (boxDoctor *) &vacci_ptr->seats[patientMaxNumber - 1] + 1;
 
     patient undifined_patient = {
             "NULL",
@@ -109,8 +109,8 @@ int main (int argc, char *argv []) {
     vacci_ptr->nbrSeats = patientMaxNumber;
     vacci_ptr->isOpen = TRUE;
 
-    vacci_ptr->sem_seat = sem_siege;
-    vacci_ptr->sem_doctors = sem_doctors;
+    vacci_ptr->sema_seat = sema_siege;
+    vacci_ptr->sema_doctors = sema_doctors;
     vacci_ptr->lock_seat = lock_seat;
     vacci_ptr->lock_doctors = lock_doctors;
     vacci_ptr->wait_patient = wait_patient;

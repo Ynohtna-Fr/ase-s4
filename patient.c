@@ -8,7 +8,7 @@
 
 // Fichier patient.c à rédiger
 int main (int argc, char *argv []) {
-    ainit("Patient");
+    ainit("patient");
     (void) argc ;
     (void) argv ;
 
@@ -23,6 +23,11 @@ int main (int argc, char *argv []) {
     }
 
     patient *p = malloc(sizeof(struct patient));
+    patient undifined_patient = {
+            "NULL",
+            -1,
+            -1
+    };
     strcpy(p->name, argv[1]);
     p->numSiege = -1;
     p->boxNumber = -1;
@@ -45,10 +50,10 @@ int main (int argc, char *argv []) {
         perror("mmap");
         return 1;
     }
-    boxDoctor * doctors = (boxDoctor *) (vacci->seats + (vacci->nbrSeats * sizeof(waiting_seats)) + 1);
+    boxDoctor * doctors = (boxDoctor *) &vacci->seats[vacci->nbrSeats - 1] + 1;
 
     adebug(1, "%s : j'attend devant le vaccinodrome\n", p->name);
-    asem_wait(&vacci->sem_seat);
+    asem_wait(&vacci->sema_seat);
 
     adebug(1, "%s : On me fait signe, je fonce !\n", p->name);
     if (vacci->isOpen == FALSE) {
@@ -56,6 +61,7 @@ int main (int argc, char *argv []) {
         exit(1);
     }
 
+    fflush(stdout);
     adebug(1, "%s : c'est ouvert, je cherche une place\n", p->name);
     asem_wait(&vacci->lock_seat);
     //mutex to only access the seats one by one
@@ -64,7 +70,7 @@ int main (int argc, char *argv []) {
             p->numSiege = i;
             vacci->seats[i].patient = *p;
             vacci->seats[i].isTaken = TRUE;
-            adebug(1, "%s : j'ai trouvé une place ! je m'assoie sur le siege %d \n", p->name, p->numSiege);
+            printf("patient %s siege %d\n", p->name, p->numSiege);
             break;
         }
         else {
@@ -74,24 +80,27 @@ int main (int argc, char *argv []) {
     asem_post(&vacci->lock_seat);
 
     adebug(1, "%s : J'attend qu'un medecin ce libère", p->name);
-    asem_wait(&vacci->sem_doctors);
+    asem_wait(&vacci->sema_doctors);
 
     adebug(1, "%s : Un medecin est libre, je vais le chopper lui !", p->name);
     asem_wait(&vacci->lock_doctors);
     for (int i = 0; i < vacci->maxDoctor; ++i) {
         // if nobody is in the box, go into it
         if (doctors[i].isTaken == FALSE) {
-            adebug(1, "%s : Ah j'ai trouvé le médecin : %d", p->name, i);
+            printf("patient %s medecin %d\n", p->name, i);
             doctors[i].isTaken = TRUE;
             asem_wait(&vacci->lock_seat);
+            adebug(1, "%s : sur le siège %d je m'appel : %s\n", p->name, p->numSiege, vacci->seats[p->numSiege].patient.name);
             doctors[i].patient = vacci->seats[p->numSiege].patient;
             vacci->seats[p->numSiege].isTaken = FALSE;
+            vacci->seats[p->numSiege].patient = undifined_patient;
             asem_post(&vacci->lock_seat);
-            asem_post(&vacci->sem_seat);
+            asem_post(&vacci->sema_seat);
             doctors[i].patient.numSiege = -1;
             doctors[i].patient.boxNumber = i;
             p->boxNumber = i;
             p->numSiege = -1;
+            break;
         }
     }
     asem_post(&vacci->lock_doctors);
@@ -102,5 +111,7 @@ int main (int argc, char *argv []) {
     adebug(1, "%s : Super je suis vacciné ! Je part bisous", p->name);
     asem_wait(&vacci->lock_doctors);
     doctors[p->boxNumber].isTaken = FALSE;
+    doctors[p->boxNumber].patient = undifined_patient;
     asem_post(&vacci->lock_doctors);
+    free(p);
 }

@@ -8,7 +8,7 @@
 int main (int argc, char *argv []) {
     (void) argc ;
     (void) argv ;
-    int myNum;
+    int myNum = 0;
     int stopWork = FALSE;
 
     ainit("medecin");
@@ -34,7 +34,7 @@ int main (int argc, char *argv []) {
         return 1;
     }
 
-    boxDoctor * doctors = (boxDoctor *) (vacci->seats + (vacci->nbrSeats * sizeof(waiting_seats)) + 1);
+    boxDoctor * doctors = (boxDoctor *) &vacci->seats[vacci->nbrSeats - 1] + 1;
 
     adebug(1, "Hello les collègues, je prend mon service, Quel numéro ajrd ?");
     asem_wait(&vacci->lock_doctors);
@@ -43,55 +43,31 @@ int main (int argc, char *argv []) {
             adebug(1, "Le box numéro : %d est libre, je prend !", i);
             doctors[i].medecinNumber = i;
             myNum = i;
+            break;
         }
     }
     asem_post(&vacci->lock_doctors);
-
+    fflush(stdout);
     do {
-        adebug(1, "Medecin %d : Je check un petit coup d'oeil dans la salle voir si y'a du monde encore ou pas", myNum);
-        asem_wait(&vacci->lock_seat);
+//        if (vacci->isOpen == FALSE) {
+//            adebug(1, "Medecin %d : Je suis le dernier, je finalise la fermeture", myNum);
+//            asem_post(&vacci->wait_close);
+//            break;
+//        }
 
-        int flag = FALSE;
-        for (int j = 0; j < vacci->nbrSeats; j++) {
-            if (vacci->seats[j].isTaken == TRUE) {
-                flag = TRUE;
-            }
-        }
-        // flag false = nobody in the waiting room
-        if (flag == FALSE /*&& vacci->isOpen == FALSE*/) {
+        adebug(1, "Medecin %d : Je suis prêt à traiter les patients, je vais attendre les patients !", myNum);
+        asem_post(&vacci->sema_doctors);
+        asem_wait(&vacci->wait_patient);
+
+        // if the vaccinodrome is close and there is no patient in the box, the doctor will leave
+        if (vacci->isOpen == FALSE && doctors[myNum].isTaken == FALSE) {
+            adebug(1, "Medecin %d : on m'a appeler pour rien ! Je quitte ce job claqué !", myNum);
             stopWork = TRUE;
-            adebug(1, "Medecin %d : y'a plus personne, donc je pars !", myNum);
-            asem_wait(&vacci->lock_doctors);
-            doctors[myNum].medecinNumber = -1;
-            asem_post(&vacci->lock_doctors);
-
-            adebug(1, "Medecin %d : je vérifie que je suis le dernier à partir", myNum);
-            int f = FALSE;
-            asem_wait(&vacci->lock_doctors);
-            for (int k = 0; k < vacci->maxDoctor; ++k) {
-                if (doctors[k].medecinNumber != -1) {
-                    f = TRUE;
-                }
-            }
-            asem_post(&vacci->lock_doctors);
-
-            if (f == FALSE) {
-                adebug(1, "Medecin %d : Je suis le dernier, je finalise la fermeture", myNum);
-                asem_post(&vacci->wait_close);
-            }
-
-            asem_post(&vacci->lock_seat);
             break;
         }
 
-        asem_post(&vacci->lock_seat);
-
-        adebug(1, "Medecin %d : Je suis prêt à traiter les patients, je vais attendre les patients !", myNum);
-        asem_post(&vacci->sem_doctors);
-        asem_wait(&vacci->wait_patient);
-
-        adebug(1, "Medecin %d : J'ai le patient '%s', je vais le traiter !", myNum, doctors[myNum].patient.name);
-        sleep(vacci->timeToVaccinate);
+        usleep(vacci->timeToVaccinate * 1000);
+        printf("medecin %d vaccine %s\n", myNum, doctors[myNum].patient.name);
         adebug(1, "Medecin %d : J'ai fini de traiter le patient '%s'", myNum, doctors[myNum].patient.name);
         asem_post(&vacci->wait_vaccination);
     } while (stopWork == FALSE);
