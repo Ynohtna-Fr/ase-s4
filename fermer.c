@@ -1,33 +1,29 @@
-#include <stdio.h>
 #include "shm.h"
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <malloc.h>
-#include <unistd.h>
 
 int main (int argc, char *argv []) {
     (void) argc ;
     (void) argv ;
 
-    ainit("fermer");
+    CHECK(ainit("fermer") != -1);
 
     if (argc > 1 || argv[1] != NULL) {
         printf("usage: this programme don't take any arguments \n");
-        return 1;
+        exit(EXIT_FAILURE);
     }
+
     // get the shared memory
     int shm_fd = shm_open(SHARED_VACCINODROME, O_RDWR, 0666);
-    if (shm_fd == -1) {
-        perror("shm_open");
-        adebug(1, "Le vaccinodrome n'est pas ouvert !");
-        return 1;
-    }
+    CHECK(shm_fd != -1);
 
     struct stat sharedLength;
-    fstat(shm_fd, &sharedLength);
+    CHECK(fstat(shm_fd, &sharedLength) != -1);
 
-    vaccinodrome *vacci = mmap(NULL, sharedLength.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    vaccinodrome *vacci = mmap(NULL, sharedLength.st_size,
+                               PROT_READ | PROT_WRITE, MAP_SHARED,
+                               shm_fd, 0);
     if (vacci == MAP_FAILED) {
         perror("mmap");
         return 1;
@@ -38,20 +34,21 @@ int main (int argc, char *argv []) {
 
     // free the doctors
     for (int i = 0; i < vacci->maxDoctor; ++i) {
-        asem_post(&vacci->wait_patient);
+        CHECK(asem_post(&vacci->wait_patient) != -1);
     }
+
     // Free the patients
     for (int i = 0; i < vacci->nbrSeats; ++i) {
-        asem_post(&vacci->sema_seat);
+        CHECK(asem_post(&vacci->sema_seat) != -1);
     }
-    sleep(1);
+
     adebug(1, "Fermeture définitive je supprime tout !");
-    shm_unlink(SHARED_VACCINODROME);
-    asem_destroy(&vacci->sema_seat);
-    asem_destroy(&vacci->sema_doctors);
-    asem_destroy(&vacci->lock_seat);
-    asem_destroy(&vacci->lock_doctors);
-    asem_destroy(&vacci->wait_patient);
-    asem_destroy(&vacci->wait_vaccination);
-    asem_destroy(&vacci->wait_close);
+    CHECK(shm_unlink(SHARED_VACCINODROME) != -1);
+    CHECK(asem_destroy(&vacci->sema_seat) != -1);
+    CHECK(asem_destroy(&vacci->sema_doctors) != -1);
+    CHECK(asem_destroy(&vacci->lock_seat) != -1);
+    CHECK(asem_destroy(&vacci->lock_doctors) != -1);
+    CHECK(asem_destroy(&vacci->wait_patient) != -1);
+    CHECK(asem_destroy(&vacci->wait_vaccination) != -1);
+    CHECK(asem_destroy(&vacci->wait_close) != -1);
 }

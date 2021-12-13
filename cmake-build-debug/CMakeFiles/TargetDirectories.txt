@@ -1,5 +1,4 @@
 /home/anthony/CLionProjects/ase-rendu/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/anthony/CLionProjects/ase-rendu/cmake-build-debug/CMakeFiles/show.dir
 /home/anthony/CLionProjects/ase-rendu/cmake-build-debug/CMakeFiles/patient.dir
 /home/anthony/CLionProjects/ase-rendu/cmake-build-debug/CMakeFiles/ouvrir.dir
 /home/anthony/CLionProjects/ase-rendu/cmake-build-debug/CMakeFiles/fermer.dir

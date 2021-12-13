@@ -5,6 +5,22 @@
 #define TRUE 1
 #define FALSE 0
 
+#ifndef CHECK_H
+#define CHECK_H
+#include <stdio.h> // For fprintf, perror
+#include <stdlib.h> // For exit
+
+#define CHECK(x) \
+  do { \
+    if (!(x)) { \
+      fprintf(stderr, "%s:%d: ", __func__, __LINE__); \
+      perror(#x); \
+      exit(EXIT_FAILURE); \
+    } \
+  } while (0)
+
+#endif /* CHECK_H */
+
 typedef struct patient {
     char name[10]; // name of the patient
     int numSiege; // number of the patient's seat
