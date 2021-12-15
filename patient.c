@@ -1,6 +1,3 @@
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <string.h>
 #include "shm.h"
 
@@ -35,20 +32,7 @@ int main (int argc, char *argv []) {
 
     adebug(1, "Patient %s :\n", p->name);
 
-    // get the shared memory
-    int shm_fd = shm_open(SHARED_VACCINODROME, O_RDWR, 0666);
-    CHECK(shm_fd != -1);
-
-    struct stat sharedLength;
-    CHECK(fstat(shm_fd, &sharedLength) != -1);
-
-    vaccinodrome *vacci = mmap(NULL, sharedLength.st_size,
-                               PROT_READ | PROT_WRITE, MAP_SHARED,
-                               shm_fd, 0);
-    if (vacci == MAP_FAILED) {
-        perror("mmap");
-        return 1;
-    }
+    vaccinodrome *vacci = getSharedMemmory();
 
     // Get the corresponding doctors array in the shared memory
     boxDoctor * doctors = (boxDoctor *) &vacci->seats[vacci->nbrSeats - 1] + 1;

@@ -52,7 +52,6 @@ int main (int argc, char *argv []) {
     asem_t lock_doctors;
     asem_t wait_patient;
     asem_t wait_vaccination;
-    asem_t wait_close;
     // number of seats
     CHECK(asem_init(&sema_siege, "seats", 1, patientMaxNumber) != -1);
     //+1 for each doctor when arrives
@@ -61,7 +60,6 @@ int main (int argc, char *argv []) {
     CHECK(asem_init(&lock_doctors, "lockBox", 1, 1) != -1);
     CHECK(asem_init(&wait_patient, "waitPatient", 1, 0) != -1);
     CHECK(asem_init(&wait_vaccination, "waitVaccination", 1, 0) != -1);
-    CHECK(asem_init(&wait_close, "waitclose", 1, 0) != -1);
 
     // shared memory initialization and allocation
     int shmid = shm_open(SHARED_VACCINODROME, O_CREAT | O_RDWR |
@@ -113,7 +111,6 @@ int main (int argc, char *argv []) {
     vacci_ptr->lock_doctors = lock_doctors;
     vacci_ptr->wait_patient = wait_patient;
     vacci_ptr->wait_vaccination = wait_vaccination;
-    vacci_ptr->wait_close = wait_close;
     // Initialize the seats with placeholders
     for (int i = 0; i < patientMaxNumber; ++i) {
         vacci_ptr->seats[i] = seats;

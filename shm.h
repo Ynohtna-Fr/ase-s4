@@ -49,8 +49,8 @@ typedef struct vaccinodrome {
     asem_t lock_doctors; // semaphore lock for the patient to wait for the doctor
     asem_t wait_patient; // semaphore lock for the doctor to get a patient
     asem_t wait_vaccination; // semaphore lock for the patient to wait for the vaccination
-    asem_t wait_close; // semaphore lock for the patient to wait for the vaccination
     waiting_seats seats[]; // array of the seats
     // implicite : boxDoctor doctorBox[]; // array of the boxes
 } vaccinodrome;
 
+vaccinodrome * getSharedMemmory ();
